@@ -64,8 +64,21 @@ class UserModel extends Model {
     });
   }
 
+  void signOut() async{
+    await _auth.signOut();
+
+    userData = Map();
+    firebaseUser = null;
+
+    notifyListeners();
+  }
+
   void recoverPass(String email) {
     _auth.sendPasswordResetEmail(email: email);
+  }
+
+  bool isLoggedIn(){
+    return  firebaseUser != null;
   }
 
   Future<void> _saveUserData(Map<String, dynamic> userData) async {

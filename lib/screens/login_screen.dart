@@ -3,7 +3,14 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:suco/models/user_model.dart';
 import 'package:suco/screens/signup_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
@@ -56,7 +63,24 @@ class LoginScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if(_emailController.text.isEmpty)
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Insira seu E-mail para recuperação!"),
+                              backgroundColor: Colors.redAccent,
+                              duration: Duration(seconds: 2),
+                            )
+                        );
+                      else {
+                        model.recoverPass(_emailController.text);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Confira seu E-mail!"),
+                              backgroundColor: Colors.redAccent,
+                              duration: Duration(seconds: 2),
+                            )
+                        );
+                      }
+                    },
                     child: Text("Esqueci minha senha", textAlign: TextAlign.right),
                   ),
                 ),
@@ -73,14 +97,8 @@ class LoginScreen extends StatelessWidget {
                         model.signIn(
                             email: _emailController.text,
                             pass: _passController.text,
-                            onSuccess: () {
-                              // TODO: Redirecionar para tela principal
-                            },
-                            onFail: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Falha ao entrar!"))
-                              );
-                            }
+                            onSuccess: _onSuccess,
+                            onFail: _onFail
                         );
                       }
                     },
@@ -93,4 +111,17 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+  void _onSuccess() {
+    Navigator.of(context).pop();
+  }
+
+  void _onFail() {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Falha ao Entrar!"),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),
+        )
+    );
+  }
 }
+

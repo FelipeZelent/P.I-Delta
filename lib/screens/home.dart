@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:suco/widgets/cart_button.dart';
 import 'package:suco/widgets/custom_drawer.dart';
 
 import '../tabs/home_tab.dart';
@@ -16,6 +17,7 @@ class Home extends StatelessWidget {
         Scaffold(
           body: HomeTab(),
           drawer: CustomDrawer(_pageController),
+          floatingActionButton: CartButton(),
         ),
         Scaffold(
           appBar: AppBar(
@@ -24,6 +26,7 @@ class Home extends StatelessWidget {
           ),
           drawer: CustomDrawer(_pageController),
           body: Container(),
+          floatingActionButton: CartButton(),
         ),
         Scaffold(
           appBar: AppBar(
@@ -32,6 +35,7 @@ class Home extends StatelessWidget {
           ),
           drawer: CustomDrawer(_pageController),
           body: Container(),
+          floatingActionButton: CartButton(),
         ),
         Scaffold(
           appBar: AppBar(
@@ -40,6 +44,7 @@ class Home extends StatelessWidget {
           ),
           drawer: CustomDrawer(_pageController),
           body: Container(),
+          floatingActionButton: CartButton(),
         ),
       ],
     );

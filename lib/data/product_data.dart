@@ -25,4 +25,12 @@ class ProductData {
     images = List<String>.from(data["images"] ?? []);
     sizes = List<String>.from(data["sizes"] ?? []);
   }
+
+  Map<String, dynamic> toResumedMap(){
+    return{
+      "title": title,
+      "description": description,
+      "price": price
+    };
+  }
 }

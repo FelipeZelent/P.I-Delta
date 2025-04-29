@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:suco/data/product_data.dart';
-
 import '../tiles/product_tile.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -24,12 +23,12 @@ class CategoryScreen extends StatelessWidget {
             .doc(snapshot.id)
             .collection("items")
             .get(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+        builder: (context, snapshotData) {
+          if (!snapshotData.hasData) {
             return Center(child: CircularProgressIndicator());
           }
 
-          var products = snapshot.data!.docs;
+          var products = snapshotData.data!.docs;
 
           return GridView.builder(
             padding: EdgeInsets.all(4.0),
@@ -41,10 +40,9 @@ class CategoryScreen extends StatelessWidget {
             ),
             itemCount: products.length,
             itemBuilder: (context, index) {
-              return ProductTile(
-                "grid",
-                ProductData.fromDocument(products[index]),
-              );
+              ProductData data = ProductData.fromDocument(products[index]);
+              data.category = this.snapshot.id;
+              return ProductTile("grid", data);
             },
           );
         },
